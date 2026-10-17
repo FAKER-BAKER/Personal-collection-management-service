@@ -1,37 +1,31 @@
-from typing import Any
-from essence.users import (
-    add_user,
-    delete_user,
-    find_user_by_id,
-    find_user_by_username,
-)
+from essence.users import User, add_user, delete_user, find_user_by_id
 
 
-def test_add_user() -> None:
-    users: list[dict[str, Any]] = []
-    u = add_user(users, "ivan", "ivan@test.com")
+def test_user_creation() -> None:
+    user = User(1, "alex", "alex@mail.ru")
+    assert user.id == 1
+    assert user.username == "alex"
+    assert "alex" in str(user)
+
+
+def test_user_from_data() -> None:
+    data = {"id": 2, "username": "bob", "email": "bob@mail.ru"}
+    user = User.from_data(data)
+    assert user.id == 2
+    assert user.username == "bob"
+
+
+def test_add_and_find_user() -> None:
+    users: list[User] = []
+    user = add_user(users, "clara", "clara@mail.ru")
     assert len(users) == 1
-    assert u["id"] == 1
-
-
-def test_find_user_by_id() -> None:
-    users: list[dict[str, Any]] = [
-        {"id": 1, "username": "ivan", "email": "a@a.com"}
-    ]
-    found = find_user_by_id(users, 1)
-    assert found is not None
-    assert found["username"] == "ivan"
-
-
-def test_find_user_by_username() -> None:
-    users: list[dict[str, Any]] = [
-        {"id": 1, "username": "ivan", "email": "a@a.com"}
-    ]
-    assert find_user_by_username(users, "IVAN") is not None
-    assert find_user_by_username(users, "petr") is None
+    assert find_user_by_id(users, user.id) is user
+    assert find_user_by_id(users, 999) is None
 
 
 def test_delete_user() -> None:
-    users: list[dict[str, Any]] = [{"id": 1, "username": "ivan"}]
-    assert delete_user(users, 1) is True
+    users: list[User] = []
+    user = add_user(users, "dan", "dan@mail.ru")
+    assert delete_user(users, user.id) is True
     assert len(users) == 0
+    assert delete_user(users, 999) is False
