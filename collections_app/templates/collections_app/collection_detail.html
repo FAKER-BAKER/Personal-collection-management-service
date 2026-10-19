@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if col %}{{ col.name }} — Коллекция{% else %}Коллекция не найдена{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if col %}
+<div class="card mb-4 shadow-sm custom-card">
+    <div class="card-body">
+        <h2 class="card-title">{{ col.name }}</h2>
+        <p class="card-text text-muted">{{ col.description|default:"Описание отсутствует." }}</p>
+        <p><strong>Владелец:</strong> {{ col.user.username }} ({{ col.user.email }})</p>
+        <p><strong>Оценочная стоимость собрания:</strong> {{ total_val|floatformat:2 }} руб.</p>
+        <a href="{% url 'collections:list' %}" class="btn btn-outline-secondary">← Все коллекции</a>
+    </div>
+</div>
+
+<h3>Экспонаты коллекции ({{ items|length }})</h3>
+<div class="table-responsive shadow-sm">
+    <table class="table table-hover table-bordered bg-white mb-0">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Год</th>
+                <th>Редкость</th>
+                <th>Цена</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for it in items %}
+            <tr>
+                <td>{{ it.id }}</td>
+                <td><a href="{% url 'items:detail' it.id %}">{{ it.name }}</a></td>
+                <td>{{ it.year }}</td>
+                <td><span class="badge bg-info text-dark">{{ it.check_rarity }}</span></td>
+                <td>{{ it.price|floatformat:2 }} руб.</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center text-muted py-3">В этой коллекции пока нет предметов.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-danger shadow-sm" role="alert">
+    <h4 class="alert-heading">Коллекция не найдена!</h4>
+    <p>Коллекция с указанным идентификатором отсутствует в системе.</p>
+    <hr>
+    <a href="{% url 'collections:list' %}" class="btn btn-outline-danger">К списку коллекций</a>
+</div>
+{% endif %}
+{% endblock %}

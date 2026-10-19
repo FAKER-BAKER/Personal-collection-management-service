@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Реестр предметов{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Реестр предметов и экспонатов</h1>
+    <span class="badge bg-secondary fs-6">Всего предметов: {{ items|length }}</span>
+</div>
+
+<div class="table-responsive shadow-sm">
+    <table class="table table-striped table-hover bg-white mb-0 custom-card">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Категория</th>
+                <th>Год</th>
+                <th>Редкость</th>
+                <th>Стоимость</th>
+                <th>Коллекция</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for it in items %}
+            <tr>
+                <td>{{ it.id }}</td>
+                <td><a href="{% url 'items:detail' it.id %}" class="fw-bold text-decoration-none">{{ it.name }}</a></td>
+                <td>{{ it.category.name }}</td>
+                <td>{{ it.year }}</td>
+                <td>{% include "items_app/includes/rarity_badge.html" %}</td>
+                <td>{{ it.price|floatformat:2 }} руб.</td>
+                <td><a href="{% url 'collections:detail' it.collection.id %}">{{ it.collection.name }}</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center py-4 text-muted">Экспонаты не найдены.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

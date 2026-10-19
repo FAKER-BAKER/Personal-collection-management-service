@@ -1,0 +1,14 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'homepage:index' %}">
+            <img src="{% static 'homepage/img/logo.png' %}" alt="Logo" class="project-logo me-2">
+            Коллекции
+        </a>
+        <div class="navbar-nav">
+            <a class="nav-link" href="{% url 'homepage:index' %}">Главная</a>
+            <a class="nav-link" href="{% url 'collections:list' %}">Коллекции</a>
+            <a class="nav-link" href="{% url 'items:list' %}">Экспонаты</a>
+        </div>
+    </div>
+</nav>

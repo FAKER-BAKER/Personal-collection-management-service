@@ -1,0 +1,11 @@
+<li class="list-group-item custom-card d-flex justify-content-between align-items-center mb-2 shadow-sm border">
+    <div>
+        <a href="{% url 'collections:detail' col.id %}" class="fw-bold text-decoration-none fs-5">
+            {{ col.name|default:"Без названия" }}
+        </a>
+        <div class="text-muted small">Владелец: {{ col.user.username }} | {{ col.description|default:"Описание отсутствует" }}</div>
+    </div>
+    <span class="badge bg-primary rounded-pill">
+        {{ col.items_count }} предм. ({{ col.total_value|floatformat:2 }} руб.)
+    </span>
+</li>

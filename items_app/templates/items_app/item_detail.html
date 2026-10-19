@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if it %}{{ it.name }} — Экспонат{% else %}Предмет не найден{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if it %}
+<div class="card shadow-sm custom-card">
+    <div class="card-header bg-dark text-white">
+        <h4 class="my-0">Экспонат #{{ it.id }}: {{ it.name }}</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Категория:</strong> {{ it.category.name }}</p>
+                <p><strong>Год выпуска:</strong> {{ it.year }} г.</p>
+                <p><strong>Состояние:</strong> {{ it.condition|default:"Не указано" }}</p>
+                <p><strong>Оценочная стоимость:</strong> <span class="fs-5 fw-bold text-primary">{{ it.price|floatformat:2 }} руб.</span></p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Владелец:</strong> {{ it.collection.user.username }}</p>
+                <p><strong>Входит в коллекцию:</strong> <a href="{% url 'collections:detail' it.collection.id %}">{{ it.collection.name }}</a></p>
+                <p><strong>Редкость:</strong> {% include "items_app/includes/rarity_badge.html" %}</p>
+                <p>
+                    <strong>Финансовый статус:</strong>
+                    {% if it.price >= 10000 %}
+                        <span class="badge bg-success">Высокая ценность (&gt;= 10,000 руб.)</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Обычная ценность</span>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        <hr>
+        <a href="{% url 'items:list' %}" class="btn btn-outline-secondary">← Вернуться к реестру предметов</a>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-danger shadow-sm" role="alert">
+    <h4 class="alert-heading">Экспонат не найден!</h4>
+    <p>Предмет с указанным идентификатором отсутствует в системе.</p>
+    <hr>
+    <a href="{% url 'items:list' %}" class="btn btn-outline-danger">К списку предметов</a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,7 @@
+{% if it.check_rarity == "Раритет" %}
+    <span class="badge bg-danger rarity-badge">Раритет</span>
+{% elif it.check_rarity == "Винтаж" %}
+    <span class="badge bg-warning text-dark rarity-badge">Винтаж</span>
+{% else %}
+    <span class="badge bg-secondary rarity-badge">Современный</span>
+{% endif %}

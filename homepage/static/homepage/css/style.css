@@ -1,0 +1,15 @@
+.project-logo {
+    height: 32px;
+    width: auto;
+}
+.custom-card {
+    border-radius: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.custom-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.rarity-badge {
+    font-weight: 600;
+}

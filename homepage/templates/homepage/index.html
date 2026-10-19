@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Главная — Сервис коллекций{% endblock %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-white rounded-3 shadow-sm border">
+    <h1 class="display-5 fw-bold">Сервис управления личными коллекциями</h1>
+    <p class="lead">
+        Веб-интерфейс для каталогизации частных собраний, учета редких экспонатов и оценки стоимости предметов.
+    </p>
+    <hr class="my-4">
+    <p>Перейдите в интересующий вас раздел каталога:</p>
+    <a href="{% url 'collections:list' %}" class="btn btn-primary me-2">Коллекции</a>
+    <a href="{% url 'items:list' %}" class="btn btn-secondary">Экспонаты</a>
+</div>
+{% endblock %}
